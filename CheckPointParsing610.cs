@@ -236,8 +236,6 @@ namespace Parsing
             }
         }
 
-        
-
         public static bool Point9(JArray jsonArray)
         {
             try
