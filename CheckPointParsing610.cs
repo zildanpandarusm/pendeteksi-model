@@ -10,13 +10,14 @@ namespace Parsing
 {
     public static class CheckParsing610
     {
-        public static bool Point6(JArray jsonArray)
+        public static bool Point6(Form1 form1, JArray jsonArray)
         {
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 foreach (var subsystem in jsonArray)
                 {
-                   
+
                     foreach (var item in subsystem["model"])
                     {
                         var itemType = item["type"]?.ToString();
@@ -36,19 +37,21 @@ namespace Parsing
 
                                     if (string.IsNullOrWhiteSpace(attributeName))
                                     {
-                                        MessageBox.Show($"Error: Nama atribut kosong dalam class {className}.");
-                                        return false;
+                                        msgBox.AppendText($"Error 6: Attribute name is empty in class {className}. \r\n");
+
+                                        //return false;
                                     }
 
                                     if (uniqueAttributeNames.Contains(attributeName))
                                     {
-                                        MessageBox.Show($"Error: Nama atribut {attributeName} duplikat dalam class {className}.");
-                                        return false;
+                                        msgBox.AppendText($"Error 6: Duplicate attribute name {attributeName} in class {className}. \r\n");
+
+                                        //return false;
                                     }
 
                                     uniqueAttributeNames.Add(attributeName);
                                 }
-                            }                         
+                            }
                         }
 
                         if (itemType == "association" && item["model"] is JObject associationModel)
@@ -70,14 +73,16 @@ namespace Parsing
 
                                         if (string.IsNullOrWhiteSpace(attributeName))
                                         {
-                                            MessageBox.Show($"Error: Nama atribut kosong dalam association class {associationClassName}.");
-                                            return false;
+                                            msgBox.AppendText($"Error 6: Attribute name is empty in association class {associationClassName}. \r\n");
+
+                                            //return false;
                                         }
 
                                         if (uniqueAssociationAttributeNames.Contains(attributeName))
                                         {
-                                            MessageBox.Show($"Error: Nama atribut {attributeName} duplikat dalam association class {associationClassName}.");
-                                            return false;
+                                            msgBox.AppendText($"Error 6: Duplicate attribute name {attributeName} in association class {associationClassName}. \r\n");
+
+                                            //return false;
                                         }
 
                                         uniqueAssociationAttributeNames.Add(attributeName);
@@ -89,18 +94,20 @@ namespace Parsing
                     }
                 }
 
-                MessageBox.Show("Semua nama atribut unik di dalam setiap class.");
+                //msgBox.AppendText("Success 6: All attribute names are unique within each class. \r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 6: " + ex.Message + "\r\n");
                 return false;
             }
         }
 
-        public static bool Point7(JArray jsonArray)
+        public static bool Point7(Form1 form1, JArray jsonArray)
         {
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 foreach (var subsystem in jsonArray)
@@ -131,14 +138,16 @@ namespace Parsing
 
                                 if (!hasPrimaryKey)
                                 {
-                                    MessageBox.Show($"Error: Class {className} tidak memiliki primary key.");
-                                    return false;
+                                    msgBox.AppendText($"Error 7: Class {className} does not have a primary key. \r\n");
+
+                                    //return false;
                                 }
                             }
                             else
                             {
-                                MessageBox.Show($"Error: Class {className} tidak memiliki atribut.");
-                                return false;
+                                msgBox.AppendText($"Error 7: Class {className} does not have any attributes. \r\n");
+
+                                //return false;
                             }
                         }
 
@@ -168,14 +177,16 @@ namespace Parsing
 
                                     if (!hasPrimaryKey)
                                     {
-                                        MessageBox.Show($"Error: Association Class {associationClassName} tidak memiliki primary key.");
-                                        return false;
+                                        msgBox.AppendText($"Error 7: Association Class {associationClassName} does not have a primary key. \r\n");
+
+                                        //return false;
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show($"Error: Association Class {associationClassName} tidak memiliki atribut.");
-                                    return false;
+                                    msgBox.AppendText($"Error 7: Association Class {associationClassName} does not have any attributes. \r\n");
+
+                                    //return false;
                                 }
                             }
                         }
@@ -183,20 +194,22 @@ namespace Parsing
                     }
                 }
 
-                MessageBox.Show("Setiap class, termasuk association_class, memiliki primary key.");
+                //msgBox.AppendText("Success 7: Every class, including association_class, has a primary key. \r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 7: " + ex.Message + "\r\n");
                 return false;
             }
         }
 
-        public static bool Point8(JArray jsonArray)
+        public static bool Point8(Form1 form1, JArray jsonArray)
         {
+            TextBox msgBox = form1.GetMessageBox();
             try
-            {              
+            {
                 foreach (var subsystem in jsonArray)
                 {
                     HashSet<string> associationNames = new HashSet<string>();
@@ -211,14 +224,16 @@ namespace Parsing
 
                             if (string.IsNullOrWhiteSpace(associationName))
                             {
-                                MessageBox.Show("Error: Nama association kosong dalam subsistem.");
-                                return false;
+                                msgBox.AppendText("Error 8: Association name is empty in the subsystem. \r\n");
+
+                                //return false;
                             }
 
                             if (associationNames.Contains(associationName))
                             {
-                                MessageBox.Show($"Error: Nama association {associationName} duplikat dalam subsistem ini.");
-                                return false;
+                                msgBox.AppendText($"Error 8: Duplicate association name {associationName} within this subsystem.\r\n");
+
+                                //return false;
                             }
 
                             associationNames.Add(associationName);
@@ -226,18 +241,20 @@ namespace Parsing
                     }
                 }
 
-                MessageBox.Show("Semua nama association unik di setiap subsistem.");
+                //msgBox.AppendText("Success 8: All association names are unique within each subsystem. \r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 8: " + ex.Message + "\r\n");
                 return false;
             }
         }
 
-        public static bool Point9(JArray jsonArray)
+        public static bool Point9(Form1 form1, JArray jsonArray)
         {
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 foreach (var subsystem in jsonArray)
@@ -256,14 +273,16 @@ namespace Parsing
                                 var associationModel = item["model"];
                                 if (associationModel == null)
                                 {
-                                    MessageBox.Show($"Error: Relasi {item["name"]?.ToString()} (many-to-many) belum diformalisasi dengan association_class.");
-                                    return false;
+                                    msgBox.AppendText($"Error 9: Relationship {item["name"]?.ToString()} (many-to-many) has not been formalized with an association_class. \r\n");
+
+                                    //return false;
                                 }
 
                                 if (associationModel != null && associationModel["type"]?.ToString() != "association_class")
                                 {
-                                    MessageBox.Show($"Error: Relasi {item["name"]?.ToString()} (many-to-many) belum diformalisasi dengan association_class.");
-                                    return false;
+                                    msgBox.AppendText($"Error 9: Relationship {item["name"]?.ToString()} (many-to-many) has not been formalized with an association_class. \r\n");
+
+                                    //return false;
                                 }
                             }
                             else if ((class1Multiplicity == "0..*" && class2Multiplicity == "1..1") ||
@@ -277,20 +296,22 @@ namespace Parsing
 
                                 if (!HasReferentialAttribute(jsonArray, class1Id) && !HasReferentialAttribute(jsonArray, class2Id))
                                 {
-                                    MessageBox.Show($"Error: Salah satu dari Class {class1Id} atau {class2Id} pada relasi {item["name"]?.ToString()} (one-to-one) harus diformalisasi dengan referential_attribute.");
-                                    return false;
+                                    msgBox.AppendText($"Error 9: One of the Class {class1Id} or {class2Id} in relationship {item["name"]?.ToString()} (one-to-one) must be formalized with a referential_attribute. \r\n");
+
+                                    //return false;
                                 }
                             }
                         }
                     }
                 }
 
-                MessageBox.Show("Semua relasi sudah diformalisasi.");
+                //msgBox.AppendText("Success 9: All relationships have been formalized. \r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 9: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -330,6 +351,111 @@ namespace Parsing
 
             return false;
         }
+
+        public static bool Point10(Form1 form1, JArray jsonArray)
+        {
+            TextBox msgBox = form1.GetMessageBox();
+            // Mengumpulkan semua nama referential attribute dari type class dan type association_class
+            HashSet<string> referentialAttributeNames = new HashSet<string>();
+
+            foreach (var subsystem in jsonArray)
+            {
+                foreach (var item in subsystem["model"])
+                {
+                    if (item["type"].ToString() == "class")
+                    {
+                        JArray associationAttributes = (JArray)item["attributes"];
+                        foreach (JObject attribute in associationAttributes)
+                        {
+                            if (attribute["attribute_type"].ToString() == "referential_attribute")
+                            {
+                                string attributeName = attribute["attribute_name"].ToString();
+                                referentialAttributeNames.Add(attributeName);
+                            }
+                        }
+                    }
+
+                    if (item["type"].ToString() == "association" && item["model"] is JObject associationModel)
+                    {
+                        var associationItemType = associationModel["type"]?.ToString();
+
+                        if (associationItemType == "association_class" && associationModel["class_name"] != null)
+                        {
+                            JArray associationClassAttributes = (JArray)associationModel["attributes"];
+
+                            foreach (JObject attribute in associationClassAttributes)
+                            {
+                                if (attribute["attribute_type"].ToString() == "referential_attribute")
+                                {
+                                    string attributeName = attribute["attribute_name"].ToString();
+                                    referentialAttributeNames.Add(attributeName);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Iterasi setiap referential attribute dan periksa penamaannya
+            foreach (string attributeName in referentialAttributeNames)
+            {
+                // Ambil bagian sebelum _id
+                string[] parts = attributeName.Split('_');
+                string referenceName = string.Join("_", parts.Take(parts.Length - 1));
+                string lastPart = parts.LastOrDefault(); // Ambil bagian terakhir
+
+                // Periksa apakah ada kelas dengan KL yang mengandung referenceName
+                bool isValid = IsReferenceNameValid(jsonArray, referenceName);
+
+                if (!isValid || (lastPart != "id"))
+                {
+                    msgBox.AppendText($"Error 10: Referential attribute '{attributeName}' has incorrect naming.\r\n");
+
+                    //return false; // Return false if any attribute name is not valid or the last part is not "id"
+                }
+            }
+            //msgBox.AppendText("Success 10: All referential attributes have correct naming.\r\n");
+
+            return true;
+        }
+
+        public static bool IsReferenceNameValid(JArray jsonArray, string referenceName)
+        {
+            // Iterasi setiap kelas dan association_class dan periksa KL-nya
+            foreach (var subsystem in jsonArray)
+            {
+                foreach (var item in subsystem["model"])
+                {
+                    if (item["type"].ToString() == "class")
+                    {
+                        string klValue = item["KL"]?.ToString();
+                        if (!string.IsNullOrEmpty(klValue) && klValue.Contains(referenceName))
+                        {
+                            return true;
+                        }
+                    }
+
+                    if (item["type"].ToString() == "association" && item["model"] is JObject associationModel)
+                    {
+                        var associationItemType = associationModel["type"]?.ToString();
+
+                        if (associationItemType == "association_class")
+                        {
+                            string klValue = associationModel["KL"]?.ToString();
+                            if (!string.IsNullOrEmpty(klValue) && klValue.Contains(referenceName))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+
+
+                }
+            }
+
+            return false;
+        }
+
 
     }
 }

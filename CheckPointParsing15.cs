@@ -8,8 +8,9 @@ namespace Parsing
 {
     public static class CheckParsing15
     {
-        public static bool Point1(JArray jsonArray)
+        public static bool Point1(Form1 form1, JArray jsonArray)
         {
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 HashSet<string> subsystemNames = new HashSet<string>();
@@ -26,31 +27,33 @@ namespace Parsing
 
                             if (subsystemNames.Contains(subsystemName))
                             {
-                                MessageBox.Show($"Ada subsistem dengan nama yang sama: {subsystemName}. Pastikan semua subsistem memiliki nama yang unik.");
-                                return false;
+                                msgBox.AppendText($"Error 1: There is a subsystem with the same name: {subsystemName}. Ensure that all subsystems have unique names.\r\n");
+                                //return false;
                             }
 
                             subsystemNames.Add(subsystemName);
                         }
                         else
                         {
-                            MessageBox.Show("Error: Properti 'sub_name' tidak ditemukan atau kosong.");
-                            return false;
+                            msgBox.AppendText("Error 1: Property 'sub_name' not found or is empty.\r\n");
+                            //return false;
                         }
                     }
                 }
 
-                MessageBox.Show("Semua nama subsistem unik.");
+                //msgBox.AppendText("Success 1: All subsystem names are unique.\r\n");
                 return true; 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 1: " + ex.Message + "\r\n");
                 return false; 
             }
         }
-        public static bool Point2(JArray jsonArray)
+        public static bool Point2(Form1 form1, JArray jsonArray)
         {
+
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 foreach (var subsystem in jsonArray)
@@ -78,8 +81,9 @@ namespace Parsing
                                     
                                     if (attributesArray == null || !attributesArray.Any())
                                     {
-                                        MessageBox.Show($"Error: Class {classId} pada subsistem {subsystem["sub_name"]?.ToString()} tidak memiliki atribut.");
-                                        return false;
+                                        msgBox.AppendText($"Error 2: Class {classId} in subsystem {subsystem["sub_name"]?.ToString()} does not have attributes.\r\n");
+
+                                        //return false;
                                     }
                                 }
                             }
@@ -119,8 +123,9 @@ namespace Parsing
                                             var attributesArray = associationObject["attributes"] as JArray;
                                             if (attributesArray == null || !attributesArray.Any())
                                             {
-                                                MessageBox.Show($"Error: Class {classId} pada subsistem {subsystem["sub_name"]?.ToString()} tidak memiliki atribut.");
-                                                return false;
+                                                msgBox.AppendText($"Error 2: Class {classId} in subsystem {subsystem["sub_name"]?.ToString()} does not have attributes.\r\n");
+
+                                                //return false;
                                             }
                                         }
                                     }
@@ -133,23 +138,27 @@ namespace Parsing
 
                     if (classesWithoutRelation.Any())
                     {
-                        MessageBox.Show($"Error: Terdapat class tanpa relasi pada subsistem {subsystem["sub_name"]?.ToString()}. Class ID yang tidak memiliki relasi: {string.Join(", ", classesWithoutRelation)}");
-                        return false;
+                        msgBox.AppendText($"Error 2: There are classes without relationships in subsystem {subsystem["sub_name"]?.ToString()}. Class IDs without relationships: {string.Join(", ", classesWithoutRelation)}\r\n");
+
+                        //return false;
                     }
                 }
 
-                MessageBox.Show("Semua class_id dalam type association pada semua subsistem telah ditemukan dalam array class.");
+                //msgBox.AppendText("Success 2: All class_ids in the type association for all subsystems have been found in the class array.\r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 2: " + ex.Message + "\r\n");
                 return false;
             }
         }
 
-        public static bool Point3(JArray jsonArray)
+        public static bool Point3(Form1 form1, JArray jsonArray)
         {
+
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 Dictionary<string, HashSet<string>> classInfoMap = new Dictionary<string, HashSet<string>>();
@@ -168,8 +177,9 @@ namespace Parsing
 
                         if (classInfoMap.ContainsKey(classInfo))
                         {
-                            MessageBox.Show($"Error: Class {className} dalam subsistem {item["sub_name"]?.ToString()} memiliki informasi yang sama dengan class dalam subsistem lain.");
-                            return false;
+                            msgBox.AppendText($"Error 3: Class {className} in subsystem {item["sub_name"]?.ToString()} has the same information as a class in another subsystem.\r\n");
+
+                            //return false;
                         }
                         else
                         {
@@ -209,8 +219,9 @@ namespace Parsing
 
                         if (classInfoMap.ContainsKey(classInfo))
                         {
-                            MessageBox.Show($"Error: Class {className} dalam subsistem {item["sub_name"]?.ToString()} memiliki informasi yang sama dengan class dalam subsistem lain.");
-                            return false;
+                            msgBox.AppendText($"Error 3: Class {className} in subsystem {item["sub_name"]?.ToString()} has identical information to a class in another subsystem.\r\n");
+
+                            //return false;
                         }
                         else
                         {
@@ -232,12 +243,13 @@ namespace Parsing
                     }
                 }
 
-                MessageBox.Show("Semua class dalam setiap subsistem memiliki informasi yang unik.");
+                //msgBox.AppendText("Success 3: All classes in each subsystem have unique information.\r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -264,8 +276,9 @@ namespace Parsing
             return string.Join("|", attributeStrings);
         }
 
-        public static bool Point4(JArray jsonArray)
+        public static bool Point4(Form1 form1, JArray jsonArray)
         {
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 foreach (var subsystem in jsonArray)
@@ -284,20 +297,23 @@ namespace Parsing
 
                             if (string.IsNullOrWhiteSpace(className) || string.IsNullOrWhiteSpace(classId))
                             {
-                                MessageBox.Show("Error: Nama class atau class_id kosong dalam subsistem.");
-                                return false;
+                                msgBox.AppendText("Error 4: Class name or class_id is empty in the subsystem. \r\n");
+
+                                //return false;
                             }
 
                             if (classNames.Contains(className))
                             {
-                                MessageBox.Show($"Error: Nama class {className} duplikat dalam subsistem ini.");
-                                return false;
+                                msgBox.AppendText($"Error 4: Duplicate class name {className} within this subsystem. \r\n");
+
+                                //return false;
                             }
 
                             if (classIds.Contains(classId))
                             {
-                                MessageBox.Show($"Error: class_id {classId} duplikat dalam subsistem ini.");
-                                return false;
+                                msgBox.AppendText($"Error 4: Duplicate class_id {classId} within this subsystem. \r\n");
+
+                                //return false;
                             }
 
                             classNames.Add(className);
@@ -315,20 +331,23 @@ namespace Parsing
 
                                 if (string.IsNullOrWhiteSpace(associationClassName) || string.IsNullOrWhiteSpace(associationClassId))
                                 {
-                                    MessageBox.Show("Error: Nama class atau class_id kosong dalam subsistem.");
-                                    return false;
+                                    msgBox.AppendText("Error 4: Class name or class_id is empty in the subsystem. \r\n");
+
+                                    //return false;
                                 }
 
                                 if (classNames.Contains(associationClassName))
                                 {
-                                    MessageBox.Show($"Error: Nama class {associationClassName} duplikat dalam subsistem ini.");
-                                    return false;
+                                    msgBox.AppendText($"Error 4: Duplicate class name {associationClassName} within this subsystem. \r\n");
+
+                                    //return false;
                                 }
 
                                 if (classIds.Contains(associationClassId))
                                 {
-                                    MessageBox.Show($"Error: class_id {associationClassId} duplikat dalam subsistem ini.");
-                                    return false;
+                                    msgBox.AppendText($"Error 4: Duplicate class_id {associationClassId} within this subsystem. \r\n");
+
+                                    //return false;
                                 }
 
                                 classNames.Add(associationClassName);
@@ -338,18 +357,20 @@ namespace Parsing
                     }
                 }
 
-                MessageBox.Show("Semua nama class dan class_id unik di dalam setiap subsistem.");
+                //msgBox.AppendText("Success 4: All class names and class_ids are unique within each subsystem. \r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 4: " + ex.Message + "\r\n");
                 return false;
             }
         }
 
-        public static bool Point5(JArray jsonArray)
+        public static bool Point5(Form1 form1, JArray jsonArray)
         {
+            TextBox msgBox = form1.GetMessageBox();
             try
             {
                 foreach (var subsystem in jsonArray)
@@ -366,14 +387,16 @@ namespace Parsing
 
                             if (string.IsNullOrWhiteSpace(className) || string.IsNullOrWhiteSpace(KL))
                             {
-                                MessageBox.Show("Error: Nama class atau KL kosong dalam subsistem.");
-                                return false;
+                                msgBox.AppendText("Error 5: Class name or KL is empty in the subsystem. \r\n");
+
+                                //return false;
                             }
 
                             if (uniqueKLs.Contains(KL))
                             {
-                                MessageBox.Show($"Error: Nilai KL {KL} duplikat dalam subsistem ini.");
-                                return false;
+                                msgBox.AppendText($"Error 5: Duplicate KL value {KL} within this subsystem. \r\n");
+
+                                //return false;
                             }
 
                             uniqueKLs.Add(KL);
@@ -389,14 +412,16 @@ namespace Parsing
 
                                 if (string.IsNullOrWhiteSpace(associationKL))
                                 {
-                                    MessageBox.Show("Error: Nilai KL kosong dalam subsistem.");
-                                    return false;
+                                    msgBox.AppendText("Error 5: KL value is empty in the subsystem. \r\n");
+
+                                    //return false;
                                 }
 
                                 if (uniqueKLs.Contains(associationKL))
                                 {
-                                    MessageBox.Show($"Error: Nilai KL {associationKL} duplikat dalam subsistem ini.");
-                                    return false;
+                                    msgBox.AppendText($"Error 5: Duplicate KL value {associationKL} within this subsystem. \r\n");
+
+                                    //return false;
                                 }
 
                                 uniqueKLs.Add(associationKL);
@@ -405,12 +430,13 @@ namespace Parsing
                     }
                 }
 
-                MessageBox.Show("Semua nilai KL unik di dalam setiap subsistem.");
+                //msgBox.AppendText("Success 5: All KL values are unique within each subsystem. \r\n");
+
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                msgBox.AppendText("Error 5: " + ex.Message + "\r\n");
                 return false;
             }
         }

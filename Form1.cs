@@ -39,6 +39,7 @@ namespace Parsing
                 {
                     MessageBox.Show("Tidak ada file JSON yang ditemukan di folder ini.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                this.ProcessJson(this.fileNames);
             }
             catch (Exception ex)
             {
@@ -46,14 +47,8 @@ namespace Parsing
             }
         }
 
-        private void btnCheck_Click(object sender, EventArgs e)
+        private JArray ProcessJson(string[] fileNames)
         {
-            if (fileNames == null || fileNames.Length == 0)
-            {
-                MessageBox.Show("Pilih folder yang berisi file JSON terlebih dahulu.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
             List<string> jsonArrayList = new List<string>();
 
             foreach (var fileName in fileNames)
@@ -71,15 +66,44 @@ namespace Parsing
 
             JArray jsonArray = new JArray(jsonArrayList.Select(JToken.Parse));
 
-            CheckParsing15.Point1(jsonArray);
-            CheckParsing15.Point2(jsonArray);
-            CheckParsing15.Point3(jsonArray);
-            CheckParsing15.Point4(jsonArray);
-            CheckParsing15.Point5(jsonArray);
-            CheckParsing610.Point6(jsonArray);
-            CheckParsing610.Point7(jsonArray);
-            CheckParsing610.Point8(jsonArray);
-            CheckParsing610.Point9(jsonArray);
+            textSourceCode.Text = jsonArray.ToString();
+            return jsonArray;
+        }
+
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+            if (fileNames == null || fileNames.Length == 0)
+            {
+                MessageBox.Show("Pilih folder yang berisi file JSON terlebih dahulu.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            JArray jsonArray = this.ProcessJson(fileNames);
+
+            msgBox.Clear();
+
+            //msgBox.AppendText($"If empty, it means there is no error, and the model successfully passed the parsing.");
+
+
+            CheckParsing15.Point1(this, jsonArray);
+            CheckParsing15.Point2(this, jsonArray);
+            CheckParsing15.Point3(this, jsonArray);
+            CheckParsing15.Point4(this, jsonArray);
+            CheckParsing15.Point5(this, jsonArray);
+            CheckParsing610.Point6(this, jsonArray);
+            CheckParsing610.Point7(this, jsonArray);
+            CheckParsing610.Point8(this, jsonArray);
+            CheckParsing610.Point9(this, jsonArray);
+            CheckParsing610.Point10(this, jsonArray);
+            CheckParsing1115.Point11(this, jsonArray);
+            CheckParsing1115.Point12(this, jsonArray);
+            CheckParsing1115.Point13(this, jsonArray);
+            CheckParsing1115.Point14(this, jsonArray);
+            CheckParsing1115.Point15(this, jsonArray);            
+        }
+        public TextBox GetMessageBox()
+        {
+            return msgBox;
         }
     }
 }
