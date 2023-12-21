@@ -34,9 +34,8 @@ namespace Parsing
                             {
                                 if (!TryFindImportedClassInOtherSubsystem(subsystem, class1Id))
                                 {
-                                    msgBox.AppendText($"Error 11: Subsystem {subsystemId} does not have a corresponding class or imported class for relationship {item["name"]?.ToString()}. \r\n");
+                                    msgBox.AppendText($"Syntax error 11: Subsystem {subsystemId} does not have a corresponding class or imported class for relationship {item["name"]?.ToString()}. \r\n");
 
-                                    //return false;
                                 }
                             }
 
@@ -44,22 +43,19 @@ namespace Parsing
                             {
                                 if (!TryFindImportedClassInOtherSubsystem(subsystem, class2Id))
                                 {
-                                    msgBox.AppendText($"Error 11: Subsystem {subsystemId} does not have a class or imported class corresponding to the relationship {item["name"]?.ToString()}. \r\n");
+                                    msgBox.AppendText($"Syntax error 11: Subsystem {subsystemId} does not have a class or imported class corresponding to the relationship {item["name"]?.ToString()}. \r\n");
 
-                                    //return false;
                                 }
                             }
                         }
                     }
                 }
 
-                //msgBox.AppendText("Success 11: All inter-subsystem relationships have been verified. \r\n");
-
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 11: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 11: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -120,46 +116,6 @@ namespace Parsing
             return false;
         }
 
-        public static bool Point12(Form1 form1, JArray subsystems)
-        {
-            TextBox msgBox = form1.GetMessageBox();
-            try
-            {
-                foreach (var subsystem in subsystems)
-                {
-                    var subsystemId = subsystem["sub_id"]?.ToString();
-
-                    foreach (var item in subsystem["model"])
-                    {
-                        var itemType = item["type"]?.ToString();
-
-                        if (itemType == "association")
-                        {
-                            var associationClass = item["class"] as JArray;
-
-                            // Pastikan association memiliki dua class di dalamnya
-                            if (associationClass == null || associationClass.Count != 2)
-                            {
-                                msgBox.AppendText($"Error 12: Subsystem {subsystemId} has an association {item["name"]?.ToString()} that lacks a relationship between two classes within it. \r\n");
-
-                                //return false;
-                            }
-                        }
-                    }
-                }
-
-                //msgBox.AppendText("Success 12: All subsystems have associations with relationships between two classes. \r\n");
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                msgBox.AppendText($"Error 12: {ex.Message} \r\n");
-                return false;
-            }
-        }
-
-
         public static bool Point13(Form1 form1, JArray jsonArray)
         {
             TextBox msgBox = form1.GetMessageBox();
@@ -175,25 +131,22 @@ namespace Parsing
                         {
                             if (!CekKelas(item))
                             {
-                                msgBox.AppendText($"Error 13: Class or class attribute {item["class_name"]} is incomplete. \r\n");
+                                msgBox.AppendText($"Syntax error 13: Class or class attribute {item["class_name"]} is incomplete. \r\n");
 
-                                //return false;
                             }
                         }
                         else if (item["type"].ToString() == "association")
                         {
                             if (!CekRelasi(item))
                             {
-                                msgBox.AppendText($"Error 13: Association class or relationship {item["name"]} is incomplete. \r\n");
+                                msgBox.AppendText($"Syntax error 13: Association class or relationship {item["name"]} is incomplete. \r\n");
 
-                                //return false;
                             }
                         }
                     }
                 }
             }
 
-            //msgBox.AppendText($"Success 13: All classes, attributes, and relationships are complete. \r\n");
 
             return true;
         }
@@ -279,15 +232,13 @@ namespace Parsing
                             {
                                 if (!TryFindImportedClassInOtherSubsystem(currentSubsystem, class1Id))
                                 {
-                                    msgBox.AppendText($"Error 14: Subsystem {currentSubsystem["sub_name"]} does not have a corresponding class or imported class for the relationship {item["name"]?.ToString()}.\r\n");
+                                    msgBox.AppendText($"Syntax error 14: Subsystem {currentSubsystem["sub_name"]} does not have a corresponding class or imported class for the relationship {item["name"]?.ToString()}.\r\n");
 
-                                    //return false;
                                 }
 
                                 if (!IsRelationshipInOtherSubsystem(subsystems, currentSubsystem, class1Id, class2Id)) {
-                                    msgBox.AppendText($"Error 14: Subsystem {currentSubId} has a relationship with class_id {class1Id} or {class2Id}, but there is no corresponding relationship in other subsystems. \r\n");
-
-                                    //return false;
+                                    msgBox.AppendText($"Syntax error 14: Subsystem {currentSubId} has a relationship with class_id {class1Id} or {class2Id}, but there is no corresponding relationship in other subsystems. \r\n");
+                                    
                                     }
                             }
 
@@ -295,16 +246,14 @@ namespace Parsing
                             {
                                 if (!TryFindImportedClassInOtherSubsystem(currentSubsystem, class2Id))
                                 {
-                                    msgBox.AppendText($"Error 14: Subsystem {currentSubsystem["sub_name"]} does not have a corresponding class or imported class for the relationship {item["name"]?.ToString()}. \r\n");
+                                    msgBox.AppendText($"Syntax error 14: Subsystem {currentSubsystem["sub_name"]} does not have a corresponding class or imported class for the relationship {item["name"]?.ToString()}. \r\n");
 
-                                    //return false;
                                 }
 
                                 if (!IsRelationshipInOtherSubsystem(subsystems, currentSubsystem, class1Id, class2Id))
                                     {
-                                    msgBox.AppendText($"Error 14: Subsystem {currentSubId} has a relationship with class_id {class1Id} or {class2Id}, but there is no corresponding relationship in other subsystems. \r\n");
+                                    msgBox.AppendText($"Syntax error 14: Subsystem {currentSubId} has a relationship with class_id {class1Id} or {class2Id}, but there is no corresponding relationship in other subsystems. \r\n");
 
-                                    //return false;
                                 }
                             }
 
@@ -312,13 +261,12 @@ namespace Parsing
                     }
                 }
 
-                //msgBox.AppendText("Success 14: All inter-subsystem relationships are complete. \r\n");
 
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 14: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 14: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -378,15 +326,13 @@ namespace Parsing
                                 // Cek apakah ada state_name yang sama dengan class_name
                                 if (stateName != null && stateName.Equals(className, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    //msgBox.AppendText($"Success 15: Class already has a state diagram with the same name. \r\n");
 
                                     return true;
                                 }
                             }
 
-                            msgBox.AppendText($"Error 15: Subsystem {subsystem["sub_id"]?.ToString()} has a class {className} without a corresponding state. \r\n");
+                            msgBox.AppendText($"Syntax error 15: Subsystem {subsystem["sub_id"]?.ToString()} has a class {className} without a corresponding state. \r\n");
 
-                            //return false;
                         }
                     }
                 }
@@ -396,7 +342,44 @@ namespace Parsing
    
             catch (Exception ex)
             {
-                msgBox.AppendText($"Error 15: {ex.Message} \r\n");
+                msgBox.AppendText($"Syntax error 15: {ex.Message} \r\n");
+                return false;
+            }
+        }
+
+        public static bool Point99(Form1 form1, JArray subsystems)
+        {
+            TextBox msgBox = form1.GetMessageBox();
+            try
+            {
+                foreach (var subsystem in subsystems)
+                {
+                    var subsystemId = subsystem["sub_id"]?.ToString();
+
+                    foreach (var item in subsystem["model"])
+                    {
+                        var itemType = item["type"]?.ToString();
+
+                        if (itemType == "association")
+                        {
+                            var associationClass = item["class"] as JArray;
+
+                            // Pastikan association memiliki dua class di dalamnya
+                            if (associationClass == null || associationClass.Count != 2)
+                            {
+                                msgBox.AppendText($"Syntax error 99: Subsystem {subsystemId} has an association {item["name"]?.ToString()} that lacks a relationship between two classes within it. \r\n");
+
+                            }
+                        }
+                    }
+                }
+
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                msgBox.AppendText($"Syntax error 99: {ex.Message} \r\n");
                 return false;
             }
         }

@@ -37,7 +37,8 @@ namespace Parsing
 
                 if (this.fileNames.Length == 0)
                 {
-                    MessageBox.Show("Tidak ada file JSON yang ditemukan di folder ini.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No JSON files found in this folder.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
                 this.ProcessJson(this.fileNames);
             }
@@ -60,7 +61,8 @@ namespace Parsing
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error membaca file {Path.GetFileName(fileName)}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Error reading the file {Path.GetFileName(fileName)}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 }
             }
 
@@ -74,16 +76,14 @@ namespace Parsing
         {
             if (fileNames == null || fileNames.Length == 0)
             {
-                MessageBox.Show("Pilih folder yang berisi file JSON terlebih dahulu.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please select a folder containing JSON files first.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 return;
             }
 
             JArray jsonArray = this.ProcessJson(fileNames);
 
             msgBox.Clear();
-
-            //msgBox.AppendText($"If empty, it means there is no error, and the model successfully passed the parsing.");
-
 
             CheckParsing15.Point1(this, jsonArray);
             CheckParsing15.Point2(this, jsonArray);
@@ -96,10 +96,15 @@ namespace Parsing
             CheckParsing610.Point9(this, jsonArray);
             CheckParsing610.Point10(this, jsonArray);
             CheckParsing1115.Point11(this, jsonArray);
-            CheckParsing1115.Point12(this, jsonArray);
             CheckParsing1115.Point13(this, jsonArray);
             CheckParsing1115.Point14(this, jsonArray);
-            CheckParsing1115.Point15(this, jsonArray);            
+            CheckParsing1115.Point15(this, jsonArray);
+            CheckParsing1115.Point99(this, jsonArray);
+
+            if (string.IsNullOrWhiteSpace(msgBox.Text))
+            {
+                msgBox.Text = "Model has successfully passed parsing";
+            }
         }
         public TextBox GetMessageBox()
         {

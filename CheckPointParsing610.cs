@@ -37,16 +37,14 @@ namespace Parsing
 
                                     if (string.IsNullOrWhiteSpace(attributeName))
                                     {
-                                        msgBox.AppendText($"Error 6: Attribute name is empty in class {className}. \r\n");
+                                        msgBox.AppendText($"Syntax error 6: Attribute name is empty in class {className}. \r\n");
 
-                                        //return false;
                                     }
 
                                     if (uniqueAttributeNames.Contains(attributeName))
                                     {
-                                        msgBox.AppendText($"Error 6: Duplicate attribute name {attributeName} in class {className}. \r\n");
+                                        msgBox.AppendText($"Syntax error 6: Duplicate attribute name {attributeName} in class {className}. \r\n");
 
-                                        //return false;
                                     }
 
                                     uniqueAttributeNames.Add(attributeName);
@@ -73,16 +71,14 @@ namespace Parsing
 
                                         if (string.IsNullOrWhiteSpace(attributeName))
                                         {
-                                            msgBox.AppendText($"Error 6: Attribute name is empty in association class {associationClassName}. \r\n");
+                                            msgBox.AppendText($"Syntax error 6: Attribute name is empty in association class {associationClassName}. \r\n");
 
-                                            //return false;
                                         }
 
                                         if (uniqueAssociationAttributeNames.Contains(attributeName))
                                         {
-                                            msgBox.AppendText($"Error 6: Duplicate attribute name {attributeName} in association class {associationClassName}. \r\n");
+                                            msgBox.AppendText($"Syntax error 6: Duplicate attribute name {attributeName} in association class {associationClassName}. \r\n");
 
-                                            //return false;
                                         }
 
                                         uniqueAssociationAttributeNames.Add(attributeName);
@@ -93,14 +89,11 @@ namespace Parsing
 
                     }
                 }
-
-                //msgBox.AppendText("Success 6: All attribute names are unique within each class. \r\n");
-
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 6: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 6: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -138,16 +131,14 @@ namespace Parsing
 
                                 if (!hasPrimaryKey)
                                 {
-                                    msgBox.AppendText($"Error 7: Class {className} does not have a primary key. \r\n");
+                                    msgBox.AppendText($"Syntax error 7: Class {className} does not have a primary key. \r\n");
 
-                                    //return false;
                                 }
                             }
                             else
                             {
-                                msgBox.AppendText($"Error 7: Class {className} does not have any attributes. \r\n");
+                                msgBox.AppendText($"Syntax error 7: Class {className} does not have any attributes. \r\n");
 
-                                //return false;
                             }
                         }
 
@@ -177,16 +168,14 @@ namespace Parsing
 
                                     if (!hasPrimaryKey)
                                     {
-                                        msgBox.AppendText($"Error 7: Association Class {associationClassName} does not have a primary key. \r\n");
+                                        msgBox.AppendText($"Syntax error 7: Association Class {associationClassName} does not have a primary key. \r\n");
 
-                                        //return false;
                                     }
                                 }
                                 else
                                 {
-                                    msgBox.AppendText($"Error 7: Association Class {associationClassName} does not have any attributes. \r\n");
+                                    msgBox.AppendText($"Syntax error 7: Association Class {associationClassName} does not have any attributes. \r\n");
 
-                                    //return false;
                                 }
                             }
                         }
@@ -194,13 +183,12 @@ namespace Parsing
                     }
                 }
 
-                //msgBox.AppendText("Success 7: Every class, including association_class, has a primary key. \r\n");
 
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 7: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 7: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -224,16 +212,14 @@ namespace Parsing
 
                             if (string.IsNullOrWhiteSpace(associationName))
                             {
-                                msgBox.AppendText("Error 8: Association name is empty in the subsystem. \r\n");
+                                msgBox.AppendText("Syntax error 8: Association name is empty in the subsystem. \r\n");
 
-                                //return false;
                             }
 
                             if (associationNames.Contains(associationName))
                             {
-                                msgBox.AppendText($"Error 8: Duplicate association name {associationName} within this subsystem.\r\n");
+                                msgBox.AppendText($"Syntax error 8: Duplicate association name {associationName} within this subsystem.\r\n");
 
-                                //return false;
                             }
 
                             associationNames.Add(associationName);
@@ -241,13 +227,12 @@ namespace Parsing
                     }
                 }
 
-                //msgBox.AppendText("Success 8: All association names are unique within each subsystem. \r\n");
 
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 8: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 8: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -273,16 +258,12 @@ namespace Parsing
                                 var associationModel = item["model"];
                                 if (associationModel == null)
                                 {
-                                    msgBox.AppendText($"Error 9: Relationship {item["name"]?.ToString()} (many-to-many) has not been formalized with an association_class. \r\n");
-
-                                    //return false;
+                                    msgBox.AppendText($"Syntax error 9: Relationship {item["name"]?.ToString()} (many-to-many) has not been formalized with an association_class. \r\n");
                                 }
 
                                 if (associationModel != null && associationModel["type"]?.ToString() != "association_class")
                                 {
-                                    msgBox.AppendText($"Error 9: Relationship {item["name"]?.ToString()} (many-to-many) has not been formalized with an association_class. \r\n");
-
-                                    //return false;
+                                    msgBox.AppendText($"Syntax error 9: Relationship {item["name"]?.ToString()} (many-to-many) has not been formalized with an association_class. \r\n");
                                 }
                             }
                             else if ((class1Multiplicity == "0..*" && class2Multiplicity == "1..1") ||
@@ -296,22 +277,20 @@ namespace Parsing
 
                                 if (!HasReferentialAttribute(jsonArray, class1Id) && !HasReferentialAttribute(jsonArray, class2Id))
                                 {
-                                    msgBox.AppendText($"Error 9: One of the Class {class1Id} or {class2Id} in relationship {item["name"]?.ToString()} (one-to-one) must be formalized with a referential_attribute. \r\n");
+                                    msgBox.AppendText($"Syntax error 9: One of the Class {class1Id} or {class2Id} in relationship {item["name"]?.ToString()} (one-to-one) must be formalized with a referential_attribute. \r\n");
 
-                                    //return false;
                                 }
                             }
                         }
                     }
                 }
 
-                //msgBox.AppendText("Success 9: All relationships have been formalized. \r\n");
 
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 9: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 9: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -409,13 +388,10 @@ namespace Parsing
 
                 if (!isValid || (lastPart != "id"))
                 {
-                    msgBox.AppendText($"Error 10: Referential attribute '{attributeName}' has incorrect naming.\r\n");
+                    msgBox.AppendText($"Syntax error 10: Referential attribute '{attributeName}' has incorrect naming.\r\n");
 
-                    //return false; // Return false if any attribute name is not valid or the last part is not "id"
                 }
             }
-            //msgBox.AppendText("Success 10: All referential attributes have correct naming.\r\n");
-
             return true;
         }
 

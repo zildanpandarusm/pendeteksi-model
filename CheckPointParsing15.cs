@@ -27,26 +27,23 @@ namespace Parsing
 
                             if (subsystemNames.Contains(subsystemName))
                             {
-                                msgBox.AppendText($"Error 1: There is a subsystem with the same name: {subsystemName}. Ensure that all subsystems have unique names.\r\n");
-                                //return false;
+                                msgBox.AppendText($"Syntax error 1: There is a subsystem with the same name: {subsystemName}. Ensure that all subsystems have unique names.\r\n");
                             }
 
                             subsystemNames.Add(subsystemName);
                         }
                         else
                         {
-                            msgBox.AppendText("Error 1: Property 'sub_name' not found or is empty.\r\n");
-                            //return false;
+                            msgBox.AppendText("Syntax error 1: Property 'sub_name' not found or is empty.\r\n");
                         }
                     }
                 }
 
-                //msgBox.AppendText("Success 1: All subsystem names are unique.\r\n");
                 return true; 
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 1: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 1: " + ex.Message + "\r\n");
                 return false; 
             }
         }
@@ -81,9 +78,8 @@ namespace Parsing
                                     
                                     if (attributesArray == null || !attributesArray.Any())
                                     {
-                                        msgBox.AppendText($"Error 2: Class {classId} in subsystem {subsystem["sub_name"]?.ToString()} does not have attributes.\r\n");
+                                        msgBox.AppendText($"Syntax error 2: Class {classId} in subsystem {subsystem["sub_name"]?.ToString()} does not have attributes.\r\n");
 
-                                        //return false;
                                     }
                                 }
                             }
@@ -123,9 +119,8 @@ namespace Parsing
                                             var attributesArray = associationObject["attributes"] as JArray;
                                             if (attributesArray == null || !attributesArray.Any())
                                             {
-                                                msgBox.AppendText($"Error 2: Class {classId} in subsystem {subsystem["sub_name"]?.ToString()} does not have attributes.\r\n");
+                                                msgBox.AppendText($"Syntax error 2: Class {classId} in subsystem {subsystem["sub_name"]?.ToString()} does not have attributes.\r\n");
 
-                                                //return false;
                                             }
                                         }
                                     }
@@ -138,19 +133,15 @@ namespace Parsing
 
                     if (classesWithoutRelation.Any())
                     {
-                        msgBox.AppendText($"Error 2: There are classes without relationships in subsystem {subsystem["sub_name"]?.ToString()}. Class IDs without relationships: {string.Join(", ", classesWithoutRelation)}\r\n");
-
-                        //return false;
+                        msgBox.AppendText($"Syntax error 2: There are classes without relationships in subsystem {subsystem["sub_name"]?.ToString()}. Class IDs without relationships: {string.Join(", ", classesWithoutRelation)}\r\n");
                     }
                 }
-
-                //msgBox.AppendText("Success 2: All class_ids in the type association for all subsystems have been found in the class array.\r\n");
 
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 2: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 2: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -177,9 +168,8 @@ namespace Parsing
 
                         if (classInfoMap.ContainsKey(classInfo))
                         {
-                            msgBox.AppendText($"Error 3: Class {className} in subsystem {item["sub_name"]?.ToString()} has the same information as a class in another subsystem.\r\n");
+                            msgBox.AppendText($"Syntax error 3: Class {className} in subsystem {item["sub_name"]?.ToString()} has the same information as a class in another subsystem.\r\n");
 
-                            //return false;
                         }
                         else
                         {
@@ -219,9 +209,8 @@ namespace Parsing
 
                         if (classInfoMap.ContainsKey(classInfo))
                         {
-                            msgBox.AppendText($"Error 3: Class {className} in subsystem {item["sub_name"]?.ToString()} has identical information to a class in another subsystem.\r\n");
+                            msgBox.AppendText($"Syntax error 3: Class {className} in subsystem {item["sub_name"]?.ToString()} has identical information to a class in another subsystem.\r\n");
 
-                            //return false;
                         }
                         else
                         {
@@ -243,13 +232,11 @@ namespace Parsing
                     }
                 }
 
-                //msgBox.AppendText("Success 3: All classes in each subsystem have unique information.\r\n");
-
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -297,23 +284,20 @@ namespace Parsing
 
                             if (string.IsNullOrWhiteSpace(className) || string.IsNullOrWhiteSpace(classId))
                             {
-                                msgBox.AppendText("Error 4: Class name or class_id is empty in the subsystem. \r\n");
+                                msgBox.AppendText("Syntax error 4: Class name or class_id is empty in the subsystem. \r\n");
 
-                                //return false;
                             }
 
                             if (classNames.Contains(className))
                             {
-                                msgBox.AppendText($"Error 4: Duplicate class name {className} within this subsystem. \r\n");
+                                msgBox.AppendText($"Syntax error 4: Duplicate class name {className} within this subsystem. \r\n");
 
-                                //return false;
                             }
 
                             if (classIds.Contains(classId))
                             {
-                                msgBox.AppendText($"Error 4: Duplicate class_id {classId} within this subsystem. \r\n");
+                                msgBox.AppendText($"Syntax error 4: Duplicate class_id {classId} within this subsystem. \r\n");
 
-                                //return false;
                             }
 
                             classNames.Add(className);
@@ -331,23 +315,20 @@ namespace Parsing
 
                                 if (string.IsNullOrWhiteSpace(associationClassName) || string.IsNullOrWhiteSpace(associationClassId))
                                 {
-                                    msgBox.AppendText("Error 4: Class name or class_id is empty in the subsystem. \r\n");
+                                    msgBox.AppendText("Syntax error 4: Class name or class_id is empty in the subsystem. \r\n");
 
-                                    //return false;
                                 }
 
                                 if (classNames.Contains(associationClassName))
                                 {
-                                    msgBox.AppendText($"Error 4: Duplicate class name {associationClassName} within this subsystem. \r\n");
+                                    msgBox.AppendText($"Syntax error 4: Duplicate class name {associationClassName} within this subsystem. \r\n");
 
-                                    //return false;
                                 }
 
                                 if (classIds.Contains(associationClassId))
                                 {
-                                    msgBox.AppendText($"Error 4: Duplicate class_id {associationClassId} within this subsystem. \r\n");
+                                    msgBox.AppendText($"Syntax error 4: Duplicate class_id {associationClassId} within this subsystem. \r\n");
 
-                                    //return false;
                                 }
 
                                 classNames.Add(associationClassName);
@@ -357,13 +338,11 @@ namespace Parsing
                     }
                 }
 
-                //msgBox.AppendText("Success 4: All class names and class_ids are unique within each subsystem. \r\n");
-
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 4: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 4: " + ex.Message + "\r\n");
                 return false;
             }
         }
@@ -387,16 +366,12 @@ namespace Parsing
 
                             if (string.IsNullOrWhiteSpace(className) || string.IsNullOrWhiteSpace(KL))
                             {
-                                msgBox.AppendText("Error 5: Class name or KL is empty in the subsystem. \r\n");
-
-                                //return false;
+                                msgBox.AppendText("Syntax error 5: Class name or KL is empty in the subsystem. \r\n");
                             }
 
                             if (uniqueKLs.Contains(KL))
                             {
-                                msgBox.AppendText($"Error 5: Duplicate KL value {KL} within this subsystem. \r\n");
-
-                                //return false;
+                                msgBox.AppendText($"Syntax error 5: Duplicate KL value {KL} within this subsystem. \r\n");
                             }
 
                             uniqueKLs.Add(KL);
@@ -412,16 +387,13 @@ namespace Parsing
 
                                 if (string.IsNullOrWhiteSpace(associationKL))
                                 {
-                                    msgBox.AppendText("Error 5: KL value is empty in the subsystem. \r\n");
-
-                                    //return false;
+                                    msgBox.AppendText("Syntax error 5: KL value is empty in the subsystem. \r\n");
                                 }
 
                                 if (uniqueKLs.Contains(associationKL))
                                 {
-                                    msgBox.AppendText($"Error 5: Duplicate KL value {associationKL} within this subsystem. \r\n");
+                                    msgBox.AppendText($"Syntax error 5: Duplicate KL value {associationKL} within this subsystem. \r\n");
 
-                                    //return false;
                                 }
 
                                 uniqueKLs.Add(associationKL);
@@ -430,13 +402,11 @@ namespace Parsing
                     }
                 }
 
-                //msgBox.AppendText("Success 5: All KL values are unique within each subsystem. \r\n");
-
                 return true;
             }
             catch (Exception ex)
             {
-                msgBox.AppendText("Error 5: " + ex.Message + "\r\n");
+                msgBox.AppendText("Syntax error 5: " + ex.Message + "\r\n");
                 return false;
             }
         }

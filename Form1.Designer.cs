@@ -91,18 +91,18 @@
             this.textSourceCode.Multiline = true;
             this.textSourceCode.Name = "textSourceCode";
             this.textSourceCode.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textSourceCode.Size = new System.Drawing.Size(944, 234);
+            this.textSourceCode.Size = new System.Drawing.Size(944, 289);
             this.textSourceCode.TabIndex = 4;
             // 
             // msgBox
             // 
             this.msgBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.msgBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.msgBox.Location = new System.Drawing.Point(30, 432);
+            this.msgBox.Location = new System.Drawing.Point(30, 470);
             this.msgBox.Multiline = true;
             this.msgBox.Name = "msgBox";
             this.msgBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.msgBox.Size = new System.Drawing.Size(944, 231);
+            this.msgBox.Size = new System.Drawing.Size(944, 193);
             this.msgBox.TabIndex = 5;
             // 
             // label2
@@ -119,7 +119,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label3.Location = new System.Drawing.Point(426, 388);
+            this.label3.Location = new System.Drawing.Point(426, 428);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 26);
             this.label3.TabIndex = 7;
